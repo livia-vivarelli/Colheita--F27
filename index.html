@@ -945,8 +945,6 @@ window.addEventListener("DOMContentLoaded", function(){ renderOps(); });
 renderKpisPlantio();
 </script>
 
-
-
 <!-- ===== BALANÇO DE VOLUME ===== -->
 <div style="padding:0 28px 8px; margin-top:0;">
   <div class="card" style="padding:20px 24px;">
@@ -954,7 +952,6 @@ renderKpisPlantio();
       Balanço de Volume — Plano F27
       <span style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;">Necessidade Fábrica vs Disponível · Sobra/Falta</span>
     </div>
-
     <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
       <div style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:8px;padding:10px 16px;flex:1;min-width:110px;">
         <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Necessidade Fábrica</div>
@@ -982,9 +979,7 @@ renderKpisPlantio();
         <div style="font-size:10px;color:var(--text3);">disponível vs necessidade</div>
       </div>
     </div>
-
     <canvas id="balanco-chart" style="width:100%;height:240px;display:block;margin-bottom:16px;"></canvas>
-
     <div style="overflow-x:auto;">
       <table style="width:100%;border-collapse:collapse;font-size:12px;">
         <thead>
@@ -1014,152 +1009,82 @@ renderKpisPlantio();
     </div>
   </div>
 </div>
-
 <script>
 (function(){
-  var B = [{"mes": "2026-07", "label": "Jul/26", "vol_disp": 20827.4, "vol_liq": 18744.7, "pack_plan": 14907.0, "diferenca": -8900.5, "stor_in": 7200.0, "stor_out": 0, "saldo_arm": 437.7}, {"mes": "2026-08", "label": "Ago/26", "vol_disp": 44582.1, "vol_liq": 40123.9, "pack_plan": 14990.0, "diferenca": 4634.9, "stor_in": 22300.0, "stor_out": 0, "saldo_arm": 3271.6}, {"mes": "2026-09", "label": "Set/26", "vol_disp": 37503.7, "vol_liq": 33753.4, "pack_plan": 11976.0, "diferenca": 6803.7, "stor_in": 9280.0, "stor_out": 0, "saldo_arm": 15768.9}, {"mes": "2026-10", "label": "Out/26", "vol_disp": 22122.9, "vol_liq": 19910.6, "pack_plan": 14036.0, "diferenca": 6824.8, "stor_in": 0.0, "stor_out": 0, "saldo_arm": 21643.5}, {"mes": "2026-11", "label": "Nov/26", "vol_disp": 10354.3, "vol_liq": 9318.9, "pack_plan": 13575.0, "diferenca": -620.4, "stor_in": 0.0, "stor_out": 0, "saldo_arm": 17387.4}, {"mes": "2026-12", "label": "Dez/26", "vol_disp": 7714.0, "vol_liq": 6942.6, "pack_plan": 15151.0, "diferenca": -1236.9, "stor_in": 0.0, "stor_out": 0, "saldo_arm": 9179.0}, {"mes": "2027-01", "label": "Jan/27", "vol_disp": 12133.5, "vol_liq": 10313.5, "pack_plan": 13680.0, "diferenca": 5462.1, "stor_in": 0.0, "stor_out": 8500.0, "saldo_arm": 5133.5}, {"mes": "2027-02", "label": "Fev/27", "vol_disp": 11590.0, "vol_liq": 9851.5, "pack_plan": 13394.0, "diferenca": 298.5, "stor_in": 0, "stor_out": 5555.0, "saldo_arm": 2012.5}, {"mes": "2027-03", "label": "Mar/27", "vol_disp": 8155.0, "vol_liq": 6931.8, "pack_plan": 14108.0, "diferenca": -685.5, "stor_in": 0, "stor_out": 8333.0, "saldo_arm": 1156.8}, {"mes": "2027-04", "label": "Abr/27", "vol_disp": 10214.0, "vol_liq": 8375.5, "pack_plan": 14481.0, "diferenca": 2040.1, "stor_in": 0, "stor_out": 7250.0, "saldo_arm": 1144.5}, {"mes": "2027-05", "label": "Mai/27", "vol_disp": 7733.9, "vol_liq": 6341.8, "pack_plan": 14927.0, "diferenca": 3411.4, "stor_in": 0, "stor_out": 4000.0, "saldo_arm": -4585.2}, {"mes": "2027-06", "label": "Jun/27", "vol_disp": 10233.0, "vol_liq": 8391.1, "pack_plan": 11155.0, "diferenca": -4515.7, "stor_in": 0.0, "stor_out": 0, "saldo_arm": -2763.9}];
-
-  // Tabela
-  var tbody = document.getElementById('balanco-tbody');
+  var B=[{"mes": "2026-07", "label": "Jul/26", "vol_disp": 20827.4, "pack_plan": 14907.0, "diferenca": -8900.5, "stor_in": 7200.0, "stor_out": 0, "saldo_arm": 437.7}, {"mes": "2026-08", "label": "Ago/26", "vol_disp": 44582.1, "pack_plan": 14990.0, "diferenca": 4634.9, "stor_in": 22300.0, "stor_out": 0, "saldo_arm": 3271.6}, {"mes": "2026-09", "label": "Set/26", "vol_disp": 37503.7, "pack_plan": 11976.0, "diferenca": 6803.7, "stor_in": 9280.0, "stor_out": 0, "saldo_arm": 15768.9}, {"mes": "2026-10", "label": "Out/26", "vol_disp": 22122.9, "pack_plan": 14036.0, "diferenca": 6824.8, "stor_in": 0.0, "stor_out": 0, "saldo_arm": 21643.5}, {"mes": "2026-11", "label": "Nov/26", "vol_disp": 10354.3, "pack_plan": 13575.0, "diferenca": -620.4, "stor_in": 0.0, "stor_out": 0, "saldo_arm": 17387.4}, {"mes": "2026-12", "label": "Dez/26", "vol_disp": 7714.0, "pack_plan": 15151.0, "diferenca": -1236.9, "stor_in": 0.0, "stor_out": 0, "saldo_arm": 9179.0}, {"mes": "2027-01", "label": "Jan/27", "vol_disp": 12133.5, "pack_plan": 13680.0, "diferenca": 5462.1, "stor_in": 0.0, "stor_out": 8500.0, "saldo_arm": 5133.5}, {"mes": "2027-02", "label": "Fev/27", "vol_disp": 11590.0, "pack_plan": 13394.0, "diferenca": 298.5, "stor_in": 0, "stor_out": 5555.0, "saldo_arm": 2012.5}, {"mes": "2027-03", "label": "Mar/27", "vol_disp": 8155.0, "pack_plan": 14108.0, "diferenca": -685.5, "stor_in": 0, "stor_out": 8333.0, "saldo_arm": 1156.8}, {"mes": "2027-04", "label": "Abr/27", "vol_disp": 10214.0, "pack_plan": 14481.0, "diferenca": 2040.1, "stor_in": 0, "stor_out": 7250.0, "saldo_arm": 1144.5}, {"mes": "2027-05", "label": "Mai/27", "vol_disp": 7733.9, "pack_plan": 14927.0, "diferenca": 3411.4, "stor_in": 0, "stor_out": 4000.0, "saldo_arm": -4585.2}, {"mes": "2027-06", "label": "Jun/27", "vol_disp": 10233.0, "pack_plan": 11155.0, "diferenca": -4515.7, "stor_in": 0.0, "stor_out": 0, "saldo_arm": -2763.9}];
+  var tbody=document.getElementById('balanco-tbody');
   B.forEach(function(b){
-    var falta = b.diferenca < 0;
-    var gc  = falta ? '#f87171' : '#63cfa0';
-    var tr  = document.createElement('tr');
-    // Linha inteira com fundo vermelho se falta
-    tr.style.cssText = falta
-      ? 'border-bottom:1px solid rgba(248,113,113,0.15);background:rgba(248,113,113,0.06);'
-      : 'border-bottom:1px solid rgba(255,255,255,0.04);';
-    tr.innerHTML =
-      '<td style="padding:6px 10px;color:var(--text2);font-weight:'+(falta?'700':'400')+';">'+
-        (falta ? '<span style="color:#f87171;margin-right:4px;">⚠</span>' : '')+b.label+
-      '</td>'+
+    var f=b.diferenca<0;
+    var gc=f?'#f87171':'#63cfa0';
+    var tr=document.createElement('tr');
+    tr.style.cssText=f?'border-bottom:1px solid rgba(248,113,113,0.15);background:rgba(248,113,113,0.06);':'border-bottom:1px solid rgba(255,255,255,0.04);';
+    tr.innerHTML=
+      '<td style="padding:6px 10px;color:var(--text2);font-weight:'+(f?'700':'400')+';">'+(f?'<span style="color:#f87171;margin-right:4px;">⚠</span>':'')+b.label+'</td>'+
       '<td style="text-align:right;padding:6px 10px;color:#63cfa0;">'+Math.round(b.vol_disp).toLocaleString('pt-BR')+'</td>'+
       '<td style="text-align:right;padding:6px 10px;color:#38bdf8;">'+Math.round(b.pack_plan).toLocaleString('pt-BR')+'</td>'+
       '<td style="text-align:right;padding:6px 10px;color:#fbbf24;">'+(b.stor_in>0?Math.round(b.stor_in).toLocaleString('pt-BR'):'-')+'</td>'+
       '<td style="text-align:right;padding:6px 10px;color:#a371f7;">'+(b.stor_out>0?Math.round(b.stor_out).toLocaleString('pt-BR'):'-')+'</td>'+
-      '<td style="text-align:right;padding:6px 10px;">'+
-        '<span style="display:inline-block;padding:2px 10px;border-radius:12px;font-weight:700;font-size:12px;'+
-          (falta
-            ? 'background:rgba(248,113,113,0.20);color:#f87171;border:1px solid rgba(248,113,113,0.5);'
-            : 'background:rgba(99,207,160,0.15);color:#63cfa0;border:1px solid rgba(99,207,160,0.3);')+
-        '">'+(b.diferenca>=0?'+':'')+Math.round(b.diferenca).toLocaleString('pt-BR')+'</span>'+
-      '</td>'+
-      '<td style="text-align:right;padding:6px 10px;color:'+(b.saldo_arm<0?'#f87171':'var(--text3)')+';">'+
-        Math.round(b.saldo_arm).toLocaleString('pt-BR')+
-      '</td>';
+      '<td style="text-align:right;padding:6px 10px;"><span style="display:inline-block;padding:2px 10px;border-radius:12px;font-weight:700;font-size:12px;'+(f?'background:rgba(248,113,113,0.20);color:#f87171;border:1px solid rgba(248,113,113,0.5);':'background:rgba(99,207,160,0.15);color:#63cfa0;border:1px solid rgba(99,207,160,0.3);')+'">'+(b.diferenca>=0?'+':'')+Math.round(b.diferenca).toLocaleString('pt-BR')+'</span></td>'+
+      '<td style="text-align:right;padding:6px 10px;color:'+(b.saldo_arm<0?'#f87171':'var(--text3)')+';">'+Math.round(b.saldo_arm).toLocaleString('pt-BR')+'</td>';
     tbody.appendChild(tr);
   });
-
-  // Gráfico
-  function drawChart(){
-    var canvas = document.getElementById('balanco-chart');
-    var W = canvas.parentElement.offsetWidth - 48;
-    var H = 240;
-    canvas.width = W; canvas.height = H;
-    var ctx = canvas.getContext('2d');
-    var pad = {l:52,r:14,t:16,b:52};
-    var cw = W-pad.l-pad.r, ch = H-pad.t-pad.b;
-    var n = B.length, slot = cw/n, bw = slot*0.58;
-    var maxV = Math.max.apply(null, B.map(function(b){return Math.max(b.vol_disp, b.pack_plan);})) * 1.18;
-
-    function yp(v){return pad.t + ch - (v/maxV)*ch;}
-
-    // Grid
+  function draw(){
+    var cv=document.getElementById('balanco-chart');
+    var W=cv.parentElement.offsetWidth-48,H=240;
+    cv.width=W;cv.height=H;
+    var ctx=cv.getContext('2d');
+    var pad={l:52,r:14,t:16,b:52};
+    var cw=W-pad.l-pad.r,ch=H-pad.t-pad.b;
+    var n=B.length,slot=cw/n,bw=slot*0.58;
+    var maxV=Math.max.apply(null,B.map(function(b){return Math.max(b.vol_disp,b.pack_plan);}))*1.18;
+    function yp(v){return pad.t+ch-(v/maxV)*ch;}
     for(var g=0;g<=4;g++){
-      var yg = pad.t + ch/4*g;
-      ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.moveTo(pad.l,yg); ctx.lineTo(pad.l+cw,yg); ctx.stroke();
-      ctx.fillStyle='rgba(255,255,255,0.28)'; ctx.font='9px Inter,sans-serif'; ctx.textAlign='right';
-      ctx.fillText(Math.round(maxV/4*(4-g)/1000)+'k', pad.l-4, yg+3);
+      var yg=pad.t+ch/4*g;
+      ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(pad.l,yg);ctx.lineTo(pad.l+cw,yg);ctx.stroke();
+      ctx.fillStyle='rgba(255,255,255,0.28)';ctx.font='9px Inter,sans-serif';ctx.textAlign='right';
+      ctx.fillText(Math.round(maxV/4*(4-g)/1000)+'k',pad.l-4,yg+3);
     }
-
-    var ppPts=[];
+    var pp=[];
     B.forEach(function(b,i){
-      var xc  = pad.l + slot*i + slot/2;
-      var x   = xc - bw/2;
-      var falta = b.diferenca < 0;
-
-      // Fundo vermelho de alerta atrás da barra nos meses com falta
-      if(falta){
-        ctx.fillStyle='rgba(248,113,113,0.10)';
-        ctx.fillRect(x - slot*0.18, pad.t, bw + slot*0.36, ch);
+      var xc=pad.l+slot*i+slot/2,x=xc-bw/2,f=b.diferenca<0;
+      if(f){ctx.fillStyle='rgba(248,113,113,0.10)';ctx.fillRect(x-slot*0.18,pad.t,bw+slot*0.36,ch);}
+      var hd=(b.vol_disp/maxV)*ch;
+      ctx.fillStyle=f?'rgba(99,207,160,0.55)':'rgba(99,207,160,0.80)';
+      ctx.fillRect(x,yp(b.vol_disp),bw,hd);
+      if(f){
+        var ypp=yp(b.pack_plan),ydis=yp(b.vol_disp),fh=ydis-ypp;
+        ctx.fillStyle='rgba(248,113,113,0.55)';ctx.fillRect(x,ypp,bw,fh);
+        ctx.strokeStyle='#f87171';ctx.lineWidth=1.5;ctx.strokeRect(x,ypp,bw,fh);
+        if(fh>14){ctx.fillStyle='#fff';ctx.font='bold 9px Inter,sans-serif';ctx.textAlign='center';ctx.fillText(Math.round(b.diferenca/1000*10)/10+'k',xc,ypp+fh/2+4);}
       }
-
-      // Barra vol disponível
-      var hd = (b.vol_disp/maxV)*ch;
-      ctx.fillStyle = falta ? 'rgba(99,207,160,0.55)' : 'rgba(99,207,160,0.80)';
-      ctx.fillRect(x, yp(b.vol_disp), bw, hd);
-
-      // Área de falta — hatching vermelho entre disponível e pack plan
-      if(falta){
-        var y_pp  = yp(b.pack_plan);
-        var y_dis = yp(b.vol_disp);
-        var fh    = y_dis - y_pp; // altura da falta
-        // Bloco sólido vermelho
-        ctx.fillStyle='rgba(248,113,113,0.55)';
-        ctx.fillRect(x, y_pp, bw, fh);
-        // Borda vermelha forte
-        ctx.strokeStyle='#f87171';
-        ctx.lineWidth=1.5;
-        ctx.strokeRect(x, y_pp, bw, fh);
-        // Texto de falta dentro se espaço suficiente
-        if(fh > 14){
-          ctx.fillStyle='#fff';
-          ctx.font='bold 9px Inter,sans-serif';
-          ctx.textAlign='center';
-          ctx.fillText(Math.round(b.diferenca/1000*10)/10+'k', xc, y_pp + fh/2 + 4);
-        }
-      }
-
-      ppPts.push({x:xc, y:yp(b.pack_plan)});
-
-      // Label mês
-      ctx.fillStyle = falta ? '#f87171' : 'rgba(255,255,255,0.38)';
-      ctx.font = falta ? 'bold 9px Inter,sans-serif' : '9px Inter,sans-serif';
-      ctx.textAlign='center';
-      ctx.fillText(b.label.split('/')[0], xc, H-pad.b+14);
-
-      // Badge de falta abaixo do label
-      if(falta){
+      pp.push({x:xc,y:yp(b.pack_plan)});
+      ctx.fillStyle=f?'#f87171':'rgba(255,255,255,0.38)';
+      ctx.font=f?'bold 9px Inter,sans-serif':'9px Inter,sans-serif';
+      ctx.textAlign='center';ctx.fillText(b.label.split('/')[0],xc,H-pad.b+14);
+      if(f){
         ctx.fillStyle='rgba(248,113,113,0.85)';
-        var bx=xc, by=H-pad.b+26;
-        ctx.beginPath(); ctx.roundRect(bx-14,by-8,28,12,4); ctx.fill();
-        ctx.fillStyle='#fff'; ctx.font='bold 8px Inter,sans-serif'; ctx.textAlign='center';
-        ctx.fillText('FALTA', bx, by+1);
+        ctx.beginPath();ctx.roundRect(xc-14,H-pad.b+18,28,12,4);ctx.fill();
+        ctx.fillStyle='#fff';ctx.font='bold 8px Inter,sans-serif';ctx.textAlign='center';
+        ctx.fillText('FALTA',xc,H-pad.b+27);
       }
     });
-
-    // Linha Pack Plan
-    ctx.strokeStyle='#38bdf8'; ctx.lineWidth=2.5; ctx.setLineDash([6,3]);
-    ctx.beginPath();
-    ppPts.forEach(function(p,i){i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);});
-    ctx.stroke(); ctx.setLineDash([]);
-    ppPts.forEach(function(p,i){
-      var falta = B[i].diferenca < 0;
-      ctx.fillStyle = falta ? '#f87171' : '#38bdf8';
-      ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.fill();
-      ctx.strokeStyle='#fff'; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.stroke();
+    ctx.strokeStyle='#38bdf8';ctx.lineWidth=2.5;ctx.setLineDash([6,3]);
+    ctx.beginPath();pp.forEach(function(p,i){i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);});
+    ctx.stroke();ctx.setLineDash([]);
+    pp.forEach(function(p,i){
+      ctx.fillStyle=B[i].diferenca<0?'#f87171':'#38bdf8';
+      ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.stroke();
     });
-
-    // Legenda
     var leg=[['#63cfa0','Vol. Disponível'],['#38bdf8','Pack Plan'],['rgba(248,113,113,0.7)','Falta']];
-    ctx.font='9px Inter,sans-serif'; ctx.textAlign='left';
-    leg.forEach(function(l,i){
-      var ox=pad.l+i*140;
-      ctx.fillStyle=l[0]; ctx.fillRect(ox, H-14, 10, 7);
-      ctx.fillStyle='rgba(255,255,255,0.45)'; ctx.fillText(l[1], ox+13, H-8);
-    });
+    ctx.font='9px Inter,sans-serif';ctx.textAlign='left';
+    leg.forEach(function(l,i){var ox=pad.l+i*140;ctx.fillStyle=l[0];ctx.fillRect(ox,H-14,10,7);ctx.fillStyle='rgba(255,255,255,0.45)';ctx.fillText(l[1],ox+13,H-8);});
   }
-
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',drawChart);
-  } else { setTimeout(drawChart,0); }
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',draw):setTimeout(draw,0);
 })();
 </script>
 <!-- ===== FIM BALANÇO ===== -->
-
-
 <div style="text-align:center;padding:24px 28px 32px;font-size:11px;color:#333c4e;border-top:1px solid rgba(255,255,255,0.05);margin-top:8px;">
   McCain Foods Brasil · Araxá · Planejamento Agrícola F27 · Elaborado por Lívia — Field Representative
 </div>
